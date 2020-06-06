@@ -3,5 +3,8 @@
 node_modules/
 build/
 
+# Coverage of tests
+coverage/
+
 tmp/*
 !tmp/.gitkeep
