@@ -34,7 +34,7 @@ describe('CreateAppointment', () => {
     expect(user.avatar).toBe('avatar.jpg');
   });
 
-  it('should be able to create a avatar', async () => {
+  it('should be not able to update avatar of a non existing user', async () => {
     await expect(
       updateUserAvatar.execute({
         user_id: 'non-existing-user',

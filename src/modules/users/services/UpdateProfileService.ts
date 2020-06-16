@@ -39,7 +39,7 @@ class UpdateUserAvatarService {
 
     const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail?.email !== user.email) {
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
       throw new AppError('Email already in use');
     }
 
