@@ -14,15 +14,16 @@ describe('CreateAppointment', () => {
   });
 
   it('should be able to list the month availability from a provider ', async () => {
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 2, 18, 10, 0, 0),
-    });
+    async function repeat(day: number): Promise<void> {
+      for (let hour = 8; hour <= 17; hour++) {
+        await fakeAppointmentsRepository.create({
+          provider_id: 'user',
+          date: new Date(2020, 5, day, hour, 0, 0),
+        });
+      }
+    }
 
-    await fakeAppointmentsRepository.create({
-      provider_id: 'user',
-      date: new Date(2020, 5, 18, 12, 0, 0),
-    });
+    await repeat(18);
 
     await fakeAppointmentsRepository.create({
       provider_id: 'user',
@@ -31,16 +32,18 @@ describe('CreateAppointment', () => {
 
     const availability = await listAppointmentMonthAvailability.execute({
       provider_id: 'user',
-      month: 5,
+      month: 6,
       year: 2020,
     });
 
+    console.log(availability);
+
     expect(availability).toEqual(
       expect.arrayContaining([
-        { day: 17, availability: true },
-        { day: 18, availability: false },
-        { day: 19, availability: false },
-        { day: 20, availability: true },
+        { day: 17, available: true },
+        { day: 18, available: false },
+        { day: 19, available: true },
+        { day: 20, available: true },
       ]),
     );
   });
