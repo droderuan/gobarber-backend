@@ -1,14 +1,14 @@
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 
-import ListAppointmentMonthAvailabilityService from './ListAppointmentMonthAvailabilityService';
+import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
-let listAppointmentMonthAvailability: ListAppointmentMonthAvailabilityService;
+let listAppointmentMonthAvailability: ListProviderMonthAvailabilityService;
 
 describe('CreateAppointment', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
-    listAppointmentMonthAvailability = new ListAppointmentMonthAvailabilityService(
+    listAppointmentMonthAvailability = new ListProviderMonthAvailabilityService(
       fakeAppointmentsRepository,
     );
   });
@@ -35,8 +35,6 @@ describe('CreateAppointment', () => {
       month: 6,
       year: 2020,
     });
-
-    console.log(availability);
 
     expect(availability).toEqual(
       expect.arrayContaining([

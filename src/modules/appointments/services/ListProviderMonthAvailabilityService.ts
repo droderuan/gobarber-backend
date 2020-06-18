@@ -26,7 +26,7 @@ class ListAppointMonthAvailabilityService {
     year,
     month,
   }: IRequestDTO): Promise<IResponse> {
-    const filteredAppointments = await this.appointmentsRepository.FindAllByMonthFromProvider(
+    const filteredAppointments = await this.appointmentsRepository.FindAllInMonthFromProvider(
       {
         provider_id,
         month,
