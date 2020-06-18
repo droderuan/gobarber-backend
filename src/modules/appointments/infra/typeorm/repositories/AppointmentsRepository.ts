@@ -1,5 +1,4 @@
-import { getRepository, Repository, Between } from 'typeorm';
-import { startOfMonth, endOfMonth } from 'date-fns';
+import { getRepository, Repository, Raw } from 'typeorm';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
@@ -39,18 +38,19 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return findAppointment;
   }
 
-  // TODO: test if this method is working
   public async FindAllInMonthFromProvider({
     provider_id,
     month,
     year,
   }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
-    const filteredAppointments = this.ormRepository.find({
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const filteredAppointments = await this.ormRepository.find({
       where: {
-        id: provider_id,
-        date: Between(
-          startOfMonth(new Date(year, month)),
-          endOfMonth(new Date(year, month)),
+        provider_id,
+        date: Raw(
+          dateFieldName =>
+            `to_char(${dateFieldName}, 'MM-YYYY') = '${parsedMonth}-${year}'`,
         ),
       },
     });
@@ -64,12 +64,15 @@ class AppointmentsRepository implements IAppointmentsRepository {
     month,
     year,
   }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
-    const filteredAppointments = this.ormRepository.find({
+    const parsedDay = String(day).padStart(2, '0');
+    const parsedMonth = String(month).padStart(2, '0');
+
+    const filteredAppointments = await this.ormRepository.find({
       where: {
         id: provider_id,
-        date: Between(
-          startOfMonth(new Date(year, month, day)),
-          endOfMonth(new Date(year, month, day)),
+        date: Raw(
+          dateFieldName =>
+            `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
     });
