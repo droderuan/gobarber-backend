@@ -18,6 +18,7 @@ describe('CreateAppointment', () => {
       for (let hour = 8; hour <= 17; hour++) {
         await fakeAppointmentsRepository.create({
           provider_id: 'user',
+          user_id: 'user',
           date: new Date(2020, 5, day, hour, 0, 0),
         });
       }
@@ -27,6 +28,7 @@ describe('CreateAppointment', () => {
 
     await fakeAppointmentsRepository.create({
       provider_id: 'user',
+      user_id: 'user',
       date: new Date(2020, 5, 19, 12, 0, 0),
     });
 
