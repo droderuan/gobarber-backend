@@ -30,6 +30,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointment;
   }
 
+  // TODO: get the appointments of the user and provider ONLY
   public async findByDate(date: Date): Promise<Appointment | undefined> {
     const findAppointment = await this.ormRepository.findOne({
       where: { date },
@@ -69,7 +70,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
 
     const filteredAppointments = await this.ormRepository.find({
       where: {
-        id: provider_id,
+        provider_id,
         date: Raw(
           dateFieldName =>
             `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,

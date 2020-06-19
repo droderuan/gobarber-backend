@@ -7,7 +7,7 @@ import ShowProfileService from './ShowProfileService';
 let fakeUsersRepository: FakeUsersRepository;
 let showProfileService: ShowProfileService;
 
-describe('CreateAppointment', () => {
+describe('ShowProfile', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     showProfileService = new ShowProfileService(fakeUsersRepository);

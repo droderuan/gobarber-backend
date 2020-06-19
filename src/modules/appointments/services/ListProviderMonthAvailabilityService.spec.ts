@@ -5,7 +5,7 @@ import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilit
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listAppointmentMonthAvailability: ListProviderMonthAvailabilityService;
 
-describe('CreateAppointment', () => {
+describe('ListProviderMonthAvailability', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     listAppointmentMonthAvailability = new ListProviderMonthAvailabilityService(
@@ -19,7 +19,7 @@ describe('CreateAppointment', () => {
         await fakeAppointmentsRepository.create({
           provider_id: 'user',
           user_id: 'user',
-          date: new Date(2020, 5, day, hour, 0, 0),
+          date: new Date(2020, 6, day, hour, 0, 0),
         });
       }
     }
@@ -29,12 +29,12 @@ describe('CreateAppointment', () => {
     await fakeAppointmentsRepository.create({
       provider_id: 'user',
       user_id: 'user',
-      date: new Date(2020, 5, 19, 12, 0, 0),
+      date: new Date(2020, 6, 19, 12, 0, 0),
     });
 
     const availability = await listAppointmentMonthAvailability.execute({
       provider_id: 'user',
-      month: 6,
+      month: 7,
       year: 2020,
     });
 

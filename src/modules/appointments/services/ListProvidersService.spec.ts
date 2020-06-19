@@ -5,7 +5,7 @@ import ListProvidersService from './ListProvidersService';
 let fakeUsersRepository: FakeUsersRepository;
 let listProviders: ListProvidersService;
 
-describe('CreateAppointment', () => {
+describe('ListProviders', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     listProviders = new ListProvidersService(fakeUsersRepository);
