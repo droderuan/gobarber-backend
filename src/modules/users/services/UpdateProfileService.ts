@@ -37,10 +37,14 @@ class UpdateUserAvatarService {
       throw new AppError('User does not exist');
     }
 
-    const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
+    if (email !== user.email) {
+      const userWithUpdatedEmail = await this.usersRepository.findByEmail(
+        email,
+      );
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
-      throw new AppError('Email already in use');
+      if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
+        throw new AppError('Email already in use');
+      }
     }
 
     user.name = name;
