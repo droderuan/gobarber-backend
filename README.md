@@ -67,6 +67,7 @@ possuem tipagem onde estão sendo usadas.
 
 Execute no terminal ` yarn add ` para instalar todos os módulos necessários.
 Use `yarn dev:server` para poder executar a aplicação.
+Use `yarn typeorm db:migrate` para executar as migrations.
 
 ## O que foi usado para auxílio?
 
