@@ -1,73 +1,76 @@
-# Mapeamento das funcionalidades
+# GoBarber desenvolvido no bootcamp da Rocketseat
 
-## Recuperação de senha
+## O que é?
 
-**RF**
+O back-end foi desenvolvido para que sirva um front-end e um mobile. Feito para que possa criar usuários e marcar agendamentos.
 
-- O usuário deve poder recuperar sua senha informando o seu e-mail;
-- O Usuário deve receber um e-mail com instruções de recuperação de senha;
-- O usuário deve poder resetar sua senha;
+## Como está estruturado?
 
-**RNF**
+### Arquitetura
 
-- Utilizar Mailtrap para testar envios em ambiente de edv;
-- Utilizar Amazon SES para envios em produção;
-- O envio de e-mails deve acontecer em segundo plano (background job);
+API feita seguindo o padrão REST, com 3 princípios do SOLID aplicados. Estruturado com Domain-Driven Design e seguindo o TDD para desenvolvimento.
 
-**RN**
+### Banco de dados
 
-- O link enviado por e-mail para resetar senha, deve expirar em 2h;
-- O usuário precisa confirmar a nova senha ao resetar sua senha;
+Foram utilizados 3 bancos de dados ao todo:
+- SQL com PostgreSQL
+- Document NoSQL com mongoDB
+- Key-Value NoSQL com Redis
 
-## Atualização do perfil
+**PostgreSQL**
 
-**RF**
+Usado para suprir a necessidade dos dados que precisam de segurança e persistência. Foi implementado para a tabela de usuários, agendamentos e token de usuários (para reset de senha).
 
-- O usuário deve poder atualizar o seu nome, e-mail e senha;
+**MongoDB**
 
-**RNF**
+Usado para notificações no geral, por enquanto para envio de e-mails, contendo destinatário e corpo. São dados que não precisam de tanta segurança e a sua estrutura não tem tanta importância, com isso pode mudar com o tempo também.
 
-**RN**
+**Redis**
 
-- O usuário não pode alterar seu email para um email já utilizado por outro usuário;
-- Para atualizar sua senha, o usuário deve informar a senha antiga;
-- Para atualizar sua senha, o usuário deve confirmar a nova senha;
+Ainda sendo implementado, esta sendo usado para reduzir a carga no banco de dados, pois podemos armazenar  informações na memória do servidor e com isso criar cache das informações.
 
-## Painel do prestador
+#### Docker
 
-**RF**
+Cada banco de dados usa um docker com sua respectiva imagem. Para instalar:
 
-- O usuário deve poder listar seus agendamentos de um dia específico;
-- O prestador deve receber uma notificação sempre que houver um novo agendamento;
-- O prestador deve poder visualizar as notificações não lidas;
+**PostgreSQL**
+```
+  docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+```
+**MongoDB**
+```
+  docker run --name mongodb -p 27071:27017 -d -t mongo
+```
+**Redis**
+```
+  docker run --name redis -p 6379:6379 -d -t redis:alpine
+```
 
-**RNF**
+## Possui serviço externo?
 
-- Os agendamentos do prestador devem estar armazenadas em cache;
-- As notificações do prestador devem ser armazenadas no mongoDB;
-- As notificações do prestador devem ser enviadas em tempo-real utilizando Socket.io;
+O back-end possui dois serviços configurados para ambiente de produção, um de envio de e-mail e outro para armazenamento de arquivos (imagem de perfil). No envio de e-mail foi utilizado o Amazon SES e de armazenamento Amazon S3. Para utilizar é necessário criar uma conta e adicionar esses serviços, depois preencher o arquivo `.env`.
 
-**RN**
+## Como baixar e rodar na máquina?
 
- - A notificação deve ter um status de lida ou não-lida;
+Primeiro é necessário *clonar* esse repositório. Feito isso, crie um arquivo `.env` seguindo o `.env.example`.
 
-## Agendamento de serviços
+**.env**
 
-**RF**
+As opções que necessitam escolher entre ambiente de desenvolvimento e de produção,
+possuem tipagem onde estão sendo usadas.
 
-- O usuário deve poder listar todos os prestadores de serviços cadastrados;
-- O usuário deve poder listar os dias e horários em um mês, com pelo menos um horário disponível, de um prestador;
-- O usuário deve poder listar horários disponíveis em um dia específico de um prestador;
-- O usuário deve poder fazer um novo agendamento com um prestador;
+- APP_EXPIRES: use `dev` ou qualquer outra coisa para simbolizar produção
+- MAIL_PROVIDER: `ethereal` para desenvolvimento ou `ses` para produção, necessitando preenche as variáveis da `AWS`
+- STORAGE_PROVIDER: `disk` para desenvolvimento ou `s3` para produção, necessitando preencher as variáveis da `AWS`
 
-**RNF**
+**Instalando os módulos**
 
-- A listagem de prestadores deve ser armazenada em cache;
+Execute no terminal ` yarn add ` para instalar todos os módulos necessários.
+Use `yarn dev:server` para poder executar a aplicação.
 
-**RN**
+## O que foi usado para auxílio?
 
-- Cada agendamento deve durar 1h exatamente;
-- Os agendamentos devem estar disponíveis entre 8h às 18h (Primeiro às 8h, último às 17h);
-- O usuário não pode agendar em um horário já agendado;
-- O usuário não pode agendar em um horário que já passou;
-- O usuário não pode agendar serviços consigo mesmo;
+- [VsCode](https://code.visualstudio.com/)
+- [Insomnia](https://insomnia.rest/) to make requests
+- [DBeaver](https://dbeaver.io/) visualize postgres database
+- [MongoDB Compass](https://www.mongodb.com/products/compass) visualize mongoDB database
