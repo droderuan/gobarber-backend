@@ -7,7 +7,7 @@ import AppError from '@shared/errors/AppError';
 export default class ProvidersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const provider_id = request.user.id;
-    const { day, month, year } = request.body;
+    const { day, month, year } = request.query;
 
     if (!day || !month || !year) {
       throw new AppError('Needed day, month, year', 400);
@@ -19,9 +19,9 @@ export default class ProvidersController {
 
     const appointments = await listProviderAppointments.execute({
       provider_id,
-      day,
-      month,
-      year,
+      day: Number(day),
+      month: Number(month),
+      year: Number(year),
     });
     return response.json(appointments);
   }

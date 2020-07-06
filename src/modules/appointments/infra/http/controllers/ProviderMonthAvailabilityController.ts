@@ -7,7 +7,7 @@ import AppError from '@shared/errors/AppError';
 export default class ProvidersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const { provider_id } = request.params;
-    const { month, year } = request.body;
+    const { month, year } = request.query;
 
     if (!month || !year) {
       throw new AppError('Needed month, year', 400);
@@ -19,8 +19,8 @@ export default class ProvidersController {
 
     const monthAvailability = await ListProviderMonthAvailability.execute({
       provider_id,
-      month,
-      year,
+      month: Number(month),
+      year: Number(year),
     });
     return response.json(monthAvailability);
   }

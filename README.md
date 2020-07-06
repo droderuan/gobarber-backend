@@ -27,7 +27,7 @@ Usado para notificações no geral, por enquanto para envio de e-mails, contendo
 
 **Redis**
 
-Ainda sendo implementado, esta sendo usado para reduzir a carga no banco de dados, pois podemos armazenar  informações na memória do servidor e com isso criar cache das informações.
+Ainda sendo implementado como *Write back cache*, esta sendo usado para reduzir a carga no banco de dados, pois podemos armazenar  informações na memória do servidor e com isso criar cache das informações.
 
 #### Docker
 
