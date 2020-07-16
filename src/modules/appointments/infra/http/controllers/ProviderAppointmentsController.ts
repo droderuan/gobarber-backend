@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import ListProviderAppointmentsService from '@modules/appointments/services/ListProviderAppointmentsService';
 import AppError from '@shared/errors/AppError';
+import { classToClass } from 'class-transformer';
 
 export default class ProvidersController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -23,6 +24,6 @@ export default class ProvidersController {
       month: Number(month),
       year: Number(year),
     });
-    return response.json(appointments);
+    return response.json(classToClass(appointments));
   }
 }
