@@ -1,77 +1,101 @@
-# GoBarber desenvolvido no bootcamp da Rocketseat
+# GoBarber
 
-## O que é?
+GoBarber back-end developed during Rocketseat's bootcamp.
 
-O back-end foi desenvolvido para que sirva um front-end e um mobile. Feito para que possa criar usuários e marcar agendamentos.
+## 🚀 What is it?
+The back-end was developed to serve both a front-end and a mobile application. It allows users to be created and appointments to be scheduled.
 
-## Como está estruturado?
+---
 
-### Arquitetura
+## 🏗 How is it structured?
 
-API feita seguindo o padrão REST, com 3 princípios do SOLID aplicados. Estruturado com Domain-Driven Design e seguindo o TDD para desenvolvimento.
+### 🛠 Architecture
+The API follows the REST pattern and applies three SOLID principles. It is structured using Domain-Driven Design (DDD) and developed following Test-Driven Development (TDD).
 
-### Banco de dados
+### 🗄 Database
+A total of three databases were used:
 
-Foram utilizados 3 bancos de dados ao todo:
-- SQL com PostgreSQL
-- Document NoSQL com mongoDB
-- Key-Value NoSQL com Redis
+- **SQL with PostgreSQL**
+- **Document NoSQL with MongoDB**
+- **Key-Value NoSQL with Redis**
 
-**PostgreSQL**
+#### PostgreSQL
+Used for storing data that requires security and persistence. It was implemented for user tables, appointments, and user tokens (for password reset).
 
-Usado para suprir a necessidade dos dados que precisam de segurança e persistência. Foi implementado para a tabela de usuários, agendamentos e token de usuários (para reset de senha).
+#### MongoDB
+Used mainly for notifications, such as email dispatch, containing the recipient and message body. Since this data does not require high security and has a flexible structure, it can change over time.
 
-**MongoDB**
+#### Redis
+Currently being implemented as a Write-Back Cache to reduce database load by storing information in server memory and creating data caching.
 
-Usado para notificações no geral, por enquanto para envio de e-mails, contendo destinatário e corpo. São dados que não precisam de tanta segurança e a sua estrutura não tem tanta importância, com isso pode mudar com o tempo também.
+---
 
-**Redis**
+## 🐳 Docker
+Each database runs inside a Docker container with its respective image. To install:
 
-Ainda sendo implementado como *Write back cache*, esta sendo usado para reduzir a carga no banco de dados, pois podemos armazenar  informações na memória do servidor e com isso criar cache das informações.
-
-#### Docker
-
-Cada banco de dados usa um docker com sua respectiva imagem. Para instalar:
-
-**PostgreSQL**
-```
-  docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
-```
-**MongoDB**
-```
-  docker run --name mongodb -p 27071:27017 -d -t mongo
-```
-**Redis**
-```
-  docker run --name redis -p 6379:6379 -d -t redis:alpine
+### PostgreSQL
+```sh
+docker run --name postgres -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
 ```
 
-## Possui serviço externo?
+### MongoDB
+```sh
+docker run --name mongodb -p 27071:27017 -d -t mongo
+```
 
-O back-end possui dois serviços configurados para ambiente de produção, um de envio de e-mail e outro para armazenamento de arquivos (imagem de perfil). No envio de e-mail foi utilizado o Amazon SES e de armazenamento Amazon S3. Para utilizar é necessário criar uma conta e adicionar esses serviços, depois preencher o arquivo `.env`.
+### Redis
+```sh
+docker run --name redis -p 6379:6379 -d -t redis:alpine
+```
 
-## Como baixar e rodar na máquina?
+---
 
-Primeiro é necessário *clonar* esse repositório. Feito isso, crie um arquivo `.env` seguindo o `.env.example`.
+## 🌐 External Services
+The back-end has two configured services for the production environment:
 
-**.env**
+- **Email sending** using Amazon SES
+- **File storage (profile images)** using Amazon S3
 
-As opções que necessitam escolher entre ambiente de desenvolvimento e de produção,
-possuem tipagem onde estão sendo usadas.
+To use these services, you need to create an AWS account, add the services, and fill in the `.env` file accordingly.
 
-- APP_EXPIRES: use `dev` ou qualquer outra coisa para simbolizar produção
-- MAIL_PROVIDER: `ethereal` para desenvolvimento ou `ses` para produção, necessitando preenche as variáveis da `AWS`
-- STORAGE_PROVIDER: `disk` para desenvolvimento ou `s3` para produção, necessitando preencher as variáveis da `AWS`
+---
 
-**Instalando os módulos**
+## 📥 How to download and run it on your machine?
 
-Execute no terminal ` yarn add ` para instalar todos os módulos necessários.
-Use `yarn dev:server` para poder executar a aplicação.
-Use `yarn typeorm db:migrate` para executar as migrations.
+### 1️⃣ Clone the repository
+```sh
+git clone https://github.com/your-username/gobarber.git
+cd gobarber
+```
 
-## O que foi usado para auxílio?
+### 2️⃣ Create the `.env` file
+Follow the structure of `.env.example`:
 
-- [VsCode](https://code.visualstudio.com/)
-- [Insomnia](https://insomnia.rest/) to make requests
-- [DBeaver](https://dbeaver.io/) visualize postgres database
-- [MongoDB Compass](https://www.mongodb.com/products/compass) visualize mongoDB database
+```ini
+APP_EXPIRES=dev # Use 'dev' for development or any other value for production
+MAIL_PROVIDER=ethereal # Use 'ethereal' for development or 'ses' for production (requires AWS variables)
+STORAGE_PROVIDER=disk # Use 'disk' for development or 's3' for production (requires AWS variables)
+```
+
+### 3️⃣ Install dependencies
+```sh
+yarn install
+```
+
+### 4️⃣ Run the application
+```sh
+yarn dev:server
+```
+
+### 5️⃣ Run database migrations
+```sh
+yarn typeorm db:migrate
+```
+
+---
+
+## 🔧 Tools used
+- **VS Code**
+- **Insomnia** (for API requests)
+- **DBeaver** (to visualize PostgreSQL database)
+- **MongoDB Compass** (to visualize MongoDB database)
